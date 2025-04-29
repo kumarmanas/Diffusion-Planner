@@ -35,8 +35,8 @@ def get_filter_parameters(num_scenarios_per_type=None, limit_total_scenarios=Non
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Data Processing')
-    parser.add_argument('--data_path', default='/data/nuplan-v1.1/trainval', type=str, help='path to raw data')
-    parser.add_argument('--map_path', default='/data/nuplan-v1.1/maps', type=str, help='path to map data')
+    parser.add_argument('--data_path', default='/datasets/nuplan/nuplan-v1.1/mini', type=str, help='path to raw data')
+    parser.add_argument('--map_path', default='/datasets/nuplan/nuplan-v1.1/maps', type=str, help='path to map data')
 
     parser.add_argument('--save_path', default='./cache', type=str, help='path to save processed data')
     parser.add_argument('--scenarios_per_type', type=int, default=None, help='number of scenarios per type')

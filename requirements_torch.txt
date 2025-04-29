@@ -6,3 +6,4 @@ pytorch_lightning==2.0.1
 tensorboard==2.11.2
 timm==1.0.10
 mmengine
+#pip install --trusted-host pypi.tuna.tsinghua.edu.cn --trusted-host download.pytorch.org -r requirements_torch.txt

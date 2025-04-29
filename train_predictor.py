@@ -34,7 +34,7 @@ def get_args():
     parser.add_argument('--name', type=str, help='log name (default: "diffusion-planner-training")', default="diffusion-planner-training")
     parser.add_argument('--save_dir', type=str, help='save dir for model ckpt', default=".")
 
-    # Data
+    #Data
     parser.add_argument('--train_set', type=str, help='path to train data', default=None)
     parser.add_argument('--train_set_list', type=str, help='data list of train data', default=None)
 
@@ -66,9 +66,9 @@ def get_args():
     
     # Training
     parser.add_argument('--seed', type=int, help='fix random seed', default=3407)
-    parser.add_argument('--train_epochs', type=int, help='epochs of training', default=500)
+    parser.add_argument('--train_epochs', type=int, help='epochs of training', default=700)
     parser.add_argument('--save_utd', type=int, help='save frequency', default=20)
-    parser.add_argument('--batch_size', type=int, help='batch size (default: 2048)', default=2048)
+    parser.add_argument('--batch_size', type=int, help='batch size (default: 2048)', default=1024)
     parser.add_argument('--learning_rate', type=float, help='learning rate (default: 5e-4)', default=5e-4)
     parser.add_argument('--warm_up_epoch', type=int, help='number of warm up', default=5)
     parser.add_argument('--encoder_drop_path_rate', type=float, help='encoder drop out rate', default=0.1)
@@ -96,13 +96,15 @@ def get_args():
 
     # distributed training parameters
     parser.add_argument('--ddp', default=True, type=boolean, help='use ddp or not')
-    parser.add_argument('--port', default='22323', type=str, help='port')
+    parser.add_argument('--port', default='22393', type=str, help='port')
 
     args = parser.parse_args()
 
     args.state_normalizer = StateNormalizer.from_json(args)
     args.observation_normalizer = ObservationNormalizer.from_json(args)
     
+    args.guidance_fn= None
+
     return args
 
 def model_training(args):
@@ -160,7 +162,7 @@ def model_training(args):
     diffusion_planner = diffusion_planner.to(rank if args.device == 'cuda' else args.device)
 
     if args.ddp:
-        diffusion_planner = DDP(diffusion_planner, device_ids=[rank])
+        diffusion_planner = DDP(diffusion_planner, device_ids=[rank], find_unused_parameters=True)
 
     if args.use_ema:
         model_ema = ModelEma(

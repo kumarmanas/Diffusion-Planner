@@ -10,3 +10,8 @@ image*
 exp/
 cache/
 checkpoints/
+*.csv
+# ignore large/checkpoint folders
+diffusion_planner.egg-info/
+nuplan-devkit/
+training_log/
